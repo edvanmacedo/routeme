@@ -29,6 +29,7 @@ signals:
 
 private slots:
     void onPositionUpdated(const QGeoPositionInfo &info);
+    void onUpdateTimeout();
 
 private:
     void init();

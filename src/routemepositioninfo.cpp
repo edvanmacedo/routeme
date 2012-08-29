@@ -20,6 +20,8 @@ void RouteMePositionInfo::init()
         m_infoSourceSatellite->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
         connect(m_infoSourceSatellite, SIGNAL(positionUpdated(const QGeoPositionInfo &)),
             this, SLOT(onPositionUpdated(const QGeoPositionInfo &)));
+        connect(m_infoSourceSatellite, SIGNAL(updateTimeout()),
+                this, SLOT(onUpdateTimeout()));
     }
 
     m_infoSourceCellId = QGeoPositionInfoSource::createDefaultSource(this);
@@ -27,6 +29,8 @@ void RouteMePositionInfo::init()
         m_infoSourceCellId->setPreferredPositioningMethods(QGeoPositionInfoSource::NonSatellitePositioningMethods);
         connect(m_infoSourceCellId, SIGNAL(positionUpdated(const QGeoPositionInfo &)),
             this, SLOT(onPositionUpdated(const QGeoPositionInfo &)));
+        connect(m_infoSourceCellId, SIGNAL(updateTimeoute()),
+                this, SLOT(onUpdateTimeout()));
     }
 
 }
@@ -46,8 +50,12 @@ void RouteMePositionInfo::onPositionUpdated(const QGeoPositionInfo &info)
 
 void RouteMePositionInfo::startUpdates()
 {
-    if (!m_infoSourceSatellite || !m_infoSourceCellId)
+    if (!m_infoSourceSatellite || !m_infoSourceCellId) {
+        //XXX Just to run on Desktop...
+        onUpdateTimeout();
         return;
+    }
+
 
     m_infoSourceSatellite->startUpdates();
     m_infoSourceCellId->startUpdates();
@@ -65,4 +73,16 @@ void RouteMePositionInfo::stopUpdates()
 RouteMeCoordinate* RouteMePositionInfo::currentCoordinate()
 {
     return &m_currentCoordinate;
+}
+
+void RouteMePositionInfo::onUpdateTimeout()
+{
+    QGeoCoordinate coordinate;
+    coordinate.setLatitude(-3.014554);
+    coordinate.setLongitude(-60.029321);
+    m_currentCoordinate.setGeoCoordinate(coordinate);
+
+    emit currentCoordinateAvailable();
+
+    stopUpdates();
 }
