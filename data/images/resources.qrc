@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>currentposition.png</file>
+        <file>destinationposition.png</file>
+    </qresource>
+</RCC>

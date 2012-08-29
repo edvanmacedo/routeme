@@ -43,7 +43,9 @@ SOURCES += \
     routemesearchmanager.cpp \
     main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc \
+    ../data/images/resources.qrc
 
 contains(MEEGO_EDITION, harmattan) {
     DEFINES += MEEGO_EDITION_HARMATTAN
