@@ -8,7 +8,14 @@
         <file>qml/RouteMeAddressBook.qml</file>
         <file>qml/RouteMeAddressContent.qml</file>
 
-        <file>qml/help_icon.png</file>
-		<file>qml/current_position.png</file>
+        <file>qml/data/images/ballon.png</file>
+		<file>qml/data/images/info.png</file>
+		<file>qml/data/images/location.png</file>
+		<file>qml/data/images/locationbig.png</file>
+		<file>qml/data/images/locationviamessage.png</file>
+		<file>qml/data/images/zoomin.png</file>
+		<file>qml/data/images/zoomout.png</file>
+		<file>qml/data/images/direction0.png</file>
+		<file>qml/data/images/direction1.png</file>
     </qresource>
 </RCC>
