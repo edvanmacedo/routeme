@@ -7,6 +7,7 @@
         <file>qml/RouteMeContent.qml</file>
         <file>qml/RouteMeAddressBook.qml</file>
         <file>qml/RouteMeAddressContent.qml</file>
+        <file>qml/RouteMeAboutPage.qml</file>
 
         <file>qml/data/images/ballon.png</file>
 		<file>qml/data/images/info.png</file>
