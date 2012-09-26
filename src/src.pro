@@ -15,7 +15,6 @@ MOBILITY += location messaging contacts
 CONFIG += qdeclarative-boostable shareuiinterface-maemo-meegotouch meegotouchevents
 
 HEADERS += \
-    routemegraphicsgeomap.h \
     routememap.h \
     routeme.h \
     routemeserver.h \
@@ -31,7 +30,6 @@ HEADERS += \
     routemepixmapobject.h
 
 SOURCES += \
-    routemegraphicsgeomap.cpp \
     routememap.cpp \
     routeme.cpp \
     routemeserver.cpp \
