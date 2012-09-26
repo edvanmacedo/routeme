@@ -16,7 +16,7 @@ Page {
 
         onCurrentCoordinateAvailable: {
             map.coordinate = currentCoordinate
-            pixmap.coordinate = currentCoordinate
+            currentLocation.coordinate = currentCoordinate
             positionInfo.stopUpdates()
 
             searchManager.coordinate = currentCoordinate
@@ -41,24 +41,69 @@ Page {
             rootWindow.address += "\n"
             rootWindow.address += "Postcode: " + place.address.postcode
             rootWindow.address += "\n"
-            rootWindow.address += "Latitude: " + place.coordinate.latitude
+            rootWindow.address += "Lat: " + place.coordinate.latitude
             rootWindow.address += "\n"
-            rootWindow.address += "Longitude: " + place.coordinate.longitude
+            rootWindow.address += "Lon: " + place.coordinate.longitude
         }
     }
 
     RouteMap {
         id: map
 
-        currentPixmapLocation: pixmap
-        visible: pageStack.busy ? false : true
         width: 480
         height: 864
+        currentPixmapLocation: currentLocation
+        visible: pageStack.busy ? false : true
         zoomLevel: 13
+
+        onCurrentPixmapLocationClicked: {
+            console.log("#### marker coordinate..... " + coordinate.latitude + " -- lon: " + coordinate.longitude);
+        }
+    }
+
+    MouseArea {
+        id: mousearea
+
+        anchors.fill: map
+        property bool mouseDown : false
+        property int lastX : -1
+        property int lastY : -1
+
+        onPressed : {
+            mouseDown = true
+            lastX = mouse.x
+            lastY = mouse.y
+        }
+
+        onReleased : {
+            mouseDown = false
+            lastX = -1
+            lastY = -1
+        }
+        onPositionChanged: {
+            if (mouseDown) {
+                var dx = mouse.x - lastX
+                var dy = mouse.y - lastY
+                map.pan(-dx, -dy)
+                lastX = mouse.x
+                lastY = mouse.y
+            }
+        }
+        onDoubleClicked: {
+            map.coordinate = map.screenPositionToCoordinate(Qt.point(mouse.x, mouse.y))
+            map.zoomLevel += 1
+        }
     }
 
     RoutePixmap {
-        id: pixmap
-        source: ":/qml/current_position.png"
+        id: currentLocation
+
+        source: ":/qml/data/images/direction0.png"
+    }
+
+    RoutePixmap {
+        id: balloon
+
+        source: ":/qml/data/images/ballon.png"
     }
 }

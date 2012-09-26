@@ -1,4 +1,3 @@
-#include "routemegraphicsgeomap.h"
 #include "routememap.h"
 #include "serviceprovider.h"
 
@@ -21,7 +20,7 @@ RouteMeMap::~RouteMeMap()
 void RouteMeMap::init()
 {
     m_mapManager = ServiceProvider::instance()->mappingManager();
-    m_map = new RouteMeGraphicsGeoMap(m_mapManager, this);
+    m_map = new QGraphicsGeoMap(m_mapManager, this);
 }
 
 RouteMeCoordinate* RouteMeMap::coordinate()
@@ -32,9 +31,11 @@ RouteMeCoordinate* RouteMeMap::coordinate()
 void RouteMeMap::setCoordinate(RouteMeCoordinate *coordinate)
 {
     m_coordinate = coordinate;
+    QGeoCoordinate center = m_map->center();
+    center.setLatitude(m_coordinate->latitude());
+    center.setLongitude(m_coordinate->longitude());
 
-    m_map->setCenterLatitude(m_coordinate->latitude());
-    m_map->setCenterLongitude(m_coordinate->longitude());
+    m_map->setCenter(center);
 
     emit coordinateChanged();
 }
@@ -50,6 +51,7 @@ void RouteMeMap::setZoomLevel(qreal zoom)
     m_zoomLevel = zoom;
 
     m_map->setZoomLevel(m_zoomLevel);
+
     emit zoomLevelChanged();
 }
 
@@ -62,6 +64,7 @@ void RouteMeMap::setProviderName(const QString &providerName)
         return;
 
     m_providerName = providerName;
+
     emit providerNameChanged();
 }
 
@@ -87,4 +90,20 @@ void RouteMeMap::setCurrentPixmapLocation(RouteMePixmapObject *pixmap)
     m_currentPixmapLocation = pixmap;
     m_map->addMapObject(m_currentPixmapLocation->pixmapObject());
     emit currentPixmapLocationChanged();
+}
+
+void RouteMeMap::pan(int dx, int dy)
+{
+    m_map->pan(dx, dy);
+}
+
+RouteMeCoordinate* RouteMeMap::screenPositionToCoordinate(const QPoint &point)
+{
+    QPointF pointf(point);
+    QGeoCoordinate coord = m_map->screenPositionToCoordinate(pointf);
+    RouteMeCoordinate *coordinate = new RouteMeCoordinate(this);
+    coordinate->setLatitude(coord.latitude());
+    coordinate->setLongitude(coord.longitude());
+
+    return coordinate;
 }

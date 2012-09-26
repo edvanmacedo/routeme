@@ -3,15 +3,15 @@
 
 #include <QtDeclarative/QDeclarativeItem>
 
-#include <qgeoserviceprovider.h>
-#include <qgeomappingmanager.h>
 #include <qgeocoordinate.h>
+#include <qgeomappingmanager.h>
+#include <qgeoserviceprovider.h>
+#include <qgraphicsgeomap.h>
 
 #include "routemecoordinate.h"
-#include "routemeroutemapobject.h"
 #include "routemepixmapobject.h"
+#include "routemeroutemapobject.h"
 
-class RouteMeGraphicsGeoMap;
 
 using namespace QtMobility;
 
@@ -44,6 +44,9 @@ public:
     RouteMePixmapObject* currentPixmapLocation() { return m_currentPixmapLocation; }
     void setCurrentPixmapLocation(RouteMePixmapObject *pixmap);
 
+    Q_INVOKABLE void pan(int dx, int dy);
+    Q_INVOKABLE RouteMeCoordinate* screenPositionToCoordinate(const QPoint &point);
+
     void componentComplete();
 
 signals:
@@ -52,11 +55,12 @@ signals:
     void zoomLevelChanged();
     void routeChanged();
     void currentPixmapLocationChanged();
+    void currentPixmapLocationClicked(RouteMeCoordinate* coordinate);
 
 private:
     void init();
 
-    RouteMeGraphicsGeoMap *m_map;
+    QGraphicsGeoMap *m_map;
     QGeoMappingManager *m_mapManager;
     qreal m_zoomLevel;
     QString m_providerName;

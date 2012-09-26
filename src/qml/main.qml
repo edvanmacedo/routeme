@@ -37,7 +37,11 @@ PageStackWindow {
         }
 
         ToolIcon {
-            iconId: "toolbar-home"
+            id: sendLocation
+
+            iconSource: "qrc:/qml/data/images/locationviamessage.png"
+            visible: !(pageStack.depth !== 1)
+
             enabled: false
             anchors.right: zoomIn.left
 
@@ -49,7 +53,8 @@ PageStackWindow {
         ToolIcon {
             id: zoomIn
 
-            iconId: "toolbar-add"
+            iconSource: "qrc:/qml/data/images/zoomin.png"
+            visible: !(pageStack.depth !== 1)
 
             anchors.right: zoomOut.left
             onClicked: {
@@ -60,7 +65,8 @@ PageStackWindow {
         ToolIcon {
             id: zoomOut
 
-            iconId: "toolbar-down"
+            iconSource: "qrc:/qml/data/images/zoomout.png"
+            visible: !(pageStack.depth !== 1)
 
             anchors.right: about.left
             onClicked: {
@@ -72,9 +78,12 @@ PageStackWindow {
             id: about
             anchors.right: parent.right
 
-            iconSource: "qrc:/qml/help_icon.png"
+            iconSource: "qrc:/qml/data/images/info.png"
+            visible: !(pageStack.depth !== 1)
 
-            onClicked: console.log("about clicked...")
+            onClicked: {
+                rootWindow.componentPush("qrc:/qml/RouteMeAboutPage.qml")
+            }
         }
     }
 

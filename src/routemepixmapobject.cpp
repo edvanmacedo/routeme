@@ -5,6 +5,7 @@
 RouteMePixmapObject::RouteMePixmapObject(QObject *parent)
     : QObject(parent)
     , m_pixmapObject(new QGeoMapPixmapObject)
+    , m_offset(0,0)
 {
 }
 
@@ -44,3 +45,30 @@ void RouteMePixmapObject::setSource(const QString &source)
     m_pixmapObject->setPixmap(pixmap);
     emit sourceChanged();
 }
+
+int RouteMePixmapObject::offsetX()
+{
+    return m_offset.x();
+}
+
+void RouteMePixmapObject::setOffsetX(int offsetX)
+{
+    m_offset.setX(offsetX);
+    m_pixmapObject->setOffset(m_offset);
+
+    emit offsetXChanged();
+}
+
+int RouteMePixmapObject::offsetY()
+{
+    return m_offset.y();
+}
+
+void RouteMePixmapObject::setOffsetY(int offsetY)
+{
+    m_offset.setY(offsetY);
+    m_pixmapObject->setOffset(m_offset);
+
+    emit offsetYChanged();
+}
+
