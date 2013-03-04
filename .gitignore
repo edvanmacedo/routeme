@@ -16,6 +16,9 @@ qrc_*.cpp
 # files for the dex VM
 *.dex
 
+#Java metadata
+.metadata
+
 # Java class files
 *.class
 

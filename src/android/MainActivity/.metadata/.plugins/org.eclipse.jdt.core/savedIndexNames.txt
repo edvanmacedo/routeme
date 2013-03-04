@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+/home/juniormacedo/devel/AndroidApps/routeme/src/android/.metadata/.plugins/org.eclipse.jdt.core
-330564006.index
-2604292138.index
-1470147594.index
